@@ -226,6 +226,8 @@ span{
 }
 .portfolio-box img{
     width: 100%;
+    height: 320px;
+    object-fit: cover;
     transition: .6s ease;
 }
 .portfolio-box:hover img{
@@ -256,6 +258,7 @@ span{
 .portfolio-layer p{
     font-size: 1.6rem;
     margin: .3rem 0 1rem;
+    text-align: center;
 }
 .portfolio-layer a{
     display: inline-flex;
@@ -294,6 +297,28 @@ span{
     background: var(--second-bg-color);
     border-radius: .8rem;
     margin: .7rem 0;
+}
+.field .item::placeholder{
+    color: rgba(252, 252, 252, .3);
+}
+.field .error-txt{
+    font-size: 14.5px;
+    color: #d93025;
+    text-align: left;
+    margin: -5px 0 10px;
+    display: none;
+}
+.field.error .item{
+    border-color: #d93025;
+}
+.field.error .error-txt{
+    display: block;
+}
+form .textarea-field .item{
+    resize: none;
+}
+form .textarea-field .error-txt{
+    margin-top: -10px;
 }
 .contact form .input-box input{
     width: 49%;
@@ -388,6 +413,7 @@ span{
         margin: 3rem 0;
         
     }
+
     .home{
         flex-direction: column;
     }
