@@ -101,9 +101,6 @@ async function handleSubmit(event) {
           text: "Message send successfully!",
           icon: "success",
         });
-        
-        // status.innerHTML = "Thanks for your submission!";
-        // form.reset()
       } else {
         console.log(await response.json());
         alert("Failed to send mail: " + error);
@@ -111,7 +108,7 @@ async function handleSubmit(event) {
       }
     })
     .catch((error) => {
-      //   status.innerHTML = "Oops! There was a problem submitting your form";
+      status.innerHTML = "Oops! There was a problem submitting your form";
     });
 }
 
@@ -173,5 +170,63 @@ function checkInput() {
     });
   }
 }
+window.addEventListener('load', () => {
+  const loader = document.querySelector('.loader');
+  const noConnection = document.querySelector('.no-connection');
+
+  function checkConnection() {
+    if (!navigator.onLine) {
+      // Si pas de connexion, affiche l'image de remplacement et cache le loader
+      localStorage.setItem('onlineStatus', 'offline');
+      displayNoConnectionImage();
+    } else {
+      // Si connexion, cache l'image de remplacement et affiche le loader
+      localStorage.setItem('onlineStatus', 'online');
+      displayLoader();
+    }
+  }
+
+  function displayLoader() {
+    loader.style.display = 'flex';
+    noConnection.style.display = 'none';
+
+    // Affiche le loader pendant une minute avant de le cacher
+    setTimeout(() => {
+      hideLoader();
+    }, 900); // 60000 millisecondes = 60 secondes = 1 minute
+  }
+
+  function hideLoader() {
+    loader.classList.add('loader-hidden');
+
+    // Supprime le loader du DOM après la fin de la transition
+    loader.addEventListener('transitionend', () => {
+      if (loader.parentElement) {
+        loader.parentElement.removeChild(loader);
+      }
+    });
+  }
+
+  function displayNoConnectionImage() {
+    loader.style.display = 'none';
+    noConnection.style.display = 'flex';
+    body.style.display = "none"
+  }
+
+  // Vérifie l'état de connexion au chargement de la page
+  checkConnection();
+
+  // Vérifie l'état de connexion lors d'un changement de statut réseau
+  window.addEventListener('online', () => {
+    localStorage.setItem('onlineStatus', 'online');
+    // hideLoader();
+  });
+
+  window.addEventListener('offline', () => {
+    localStorage.setItem('onlineStatus', 'offline');
+    displayNoConnectionImage();
+  });
+});
+
 
 
